@@ -1,7 +1,6 @@
-import React from 'react';
-import { WeightSimulation } from './components/WeightSimulation';
 import { FaBalanceScale } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { WeightSimulation } from './components/WeightSimulation';
 
 function App() {
   return (
