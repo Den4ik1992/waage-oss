@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Chart } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 interface KalibrierungAnzahlProps {
   onChange: (anzahl: number) => void;
@@ -24,8 +26,22 @@ export function KalibrierungAnzahl({ onChange, initialAnzahl = 1 }: Kalibrierung
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const neueAnzahl = Math.max(1, parseInt(event.target.value) || 1);
-    setCounts(neueAnzahl);
+    setCounts([neueAnzahl, counts[1], counts[2]]);
     onChange(neueAnzahl);
+  };
+
+  // Daten für die Gewichtsverteilungschart
+  const factorsData = {
+    labels: ['Kategorie 1', 'Kategorie 2', 'Kategorie 3'],
+    datasets: [
+      {
+        label: 'Gewichtsverteilung',
+        data: factors,
+        backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)', 'rgba(255, 159, 64, 0.6)'],
+        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+        borderWidth: 1,
+      },
+    ],
   };
 
   return (
@@ -34,7 +50,7 @@ export function KalibrierungAnzahl({ onChange, initialAnzahl = 1 }: Kalibrierung
         htmlFor="kalibrierungAnzahl" 
         className="text-sm font-medium text-gray-700"
       >
-        Kalibrierung Anzahl
+        Stückzahl der Gewichtsverteilung
       </label>
       <input
         id="kalibrierungAnzahl"
@@ -48,6 +64,12 @@ export function KalibrierungAnzahl({ onChange, initialAnzahl = 1 }: Kalibrierung
       <p className="text-sm text-gray-500">
         Aktuelle Anzahl: {counts[0]} {counts[0] === 1 ? 'Teil' : 'Teile'}
       </p>
+
+      {/* Verzählung Chart */}
+      <Chart type="bar" data={verzaehlungData} options={verzaehlungOptions} />
+
+      // Neuer Gewichtsverteilung Chart
+      <Chart type="pie" data={factorsData} options={factorsOptions} />
     </div>
   );
 }
