@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { motion } from 'framer-motion';
 import { FaWeight, FaChartLine, FaCog, FaPlay, FaExclamation } from 'react-icons/fa';
