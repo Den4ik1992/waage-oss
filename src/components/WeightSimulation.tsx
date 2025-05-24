@@ -420,12 +420,18 @@ export function WeightSimulation({ initialParts = 10000, initialCalibration = 10
               transition={{ duration: 0.2 }}
             >
               {simulationResults && (
-                <div className="space-y-6"> {/* Removed motion.div from here */}
+                // The duplicated <div className="space-y-6"> was the issue.
+                // The Tab.Panel itself is already a motion.div, and the inner div
+                // was already present. The error was likely caused by a copy-paste
+                // or merge error that duplicated this line or left the Tab.Panel tag unclosed.
+                // The primary fix is ensuring the Tab.Panel tag is closed,
+                // and the secondary fix is removing the now-redundant inner motion.div
+                // if the Tab.Panel is already `as={motion.div}` and handles layout.
+                // Given the previous turn's code, the Tab.Panel IS as={motion.div}.
+                // The div below with className="space-y-6" is correct for containing the results.
+                <div className="space-y-6">
                   <div className="bg-white rounded-xl shadow-lg p-6 h-[450px]">
                     <Plot
-              <div className="space-y-6">
-                <div className="bg-white rounded-xl shadow-lg p-6 h-[450px]">
-                  <Plot
                     data={[
                       {
                         x: simulationResults.xAxis,
